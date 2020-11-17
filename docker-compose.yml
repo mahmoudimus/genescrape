@@ -1,0 +1,84 @@
+version: "3"
+
+services:
+  scrapyd:
+    build: ./scrapyd
+    image: house-renting/scrapyd
+    container_name: scrapyd
+    networks:
+      - localhost
+    ports:
+      - 6800:6800
+    depends_on:
+      - redis
+      - elastic
+    volumes:
+      - ./data:/house-renting/data
+    entrypoint: /bin/true
+
+  crawler:
+    build: ./crawler
+    image: house-renting/crawler
+    container_name: crawler
+    networks:
+      - localhost
+    volumes:
+      - ./data:/house-renting/data
+      - ./data/images:/house-renting/data/images
+    depends_on:
+      - redis
+      - elastic
+    entrypoint: /bin/true
+
+  douban:
+    image: house-renting/crawler
+    container_name: douban
+    networks:
+      - localhost
+    volumes:
+      - ./data/images:/house-renting/data/images
+    depends_on:
+      - crawler
+    entrypoint: scrapy crawl douban
+
+  elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.2.4
+    container_name: elasticsearch
+    environment:
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - localhost
+    ports:
+      - 9200:9200
+    volumes:
+      - ./data/elastic:/usr/share/elasticsearch/data
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana-oss:6.2.4
+    container_name: kibana
+    networks:
+      - localhost
+    ports:
+      - 5601:5601
+    environment:
+      - ELASTICSEARCH_URL=http://elastic:9200
+    depends_on:
+      - elastic
+
+  redis:
+    image: redis
+    container_name: redis
+    networks:
+      - localhost
+    ports:
+      - 6379:6379
+    volumes:
+      - ./data/redis:/data
+
+networks:
+  localhost:

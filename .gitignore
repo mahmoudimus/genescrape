@@ -1,0 +1,13 @@
+.*
+!.gitignore
+*.pyc
+
+data/elastic
+data/redis
+data/images/full
+
+build/
+dbs/
+eggs/
+logs/
+project.egg-info/
