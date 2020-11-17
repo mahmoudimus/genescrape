@@ -3,7 +3,7 @@ version: "3"
 services:
   scrapyd:
     build: ./scrapyd
-    image: house-renting/scrapyd
+    image: genescrape/scrapyd
     container_name: scrapyd
     networks:
       - localhost
@@ -13,30 +13,30 @@ services:
       - redis
       - elastic
     volumes:
-      - ./data:/house-renting/data
+      - ./data:/genescrape/data
     entrypoint: /bin/true
 
   crawler:
     build: ./crawler
-    image: house-renting/crawler
+    image: genescrape/crawler
     container_name: crawler
     networks:
       - localhost
     volumes:
-      - ./data:/house-renting/data
-      - ./data/images:/house-renting/data/images
+      - ./data:/genescrape/data
+      - ./data/images:/genescrape/data/images
     depends_on:
       - redis
       - elastic
     entrypoint: /bin/true
 
   douban:
-    image: house-renting/crawler
+    image: genescrape/crawler
     container_name: douban
     networks:
       - localhost
     volumes:
-      - ./data/images:/house-renting/data/images
+      - ./data/images:/genescrape/data/images
     depends_on:
       - crawler
     entrypoint: scrapy crawl douban
