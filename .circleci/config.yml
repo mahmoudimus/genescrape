@@ -12,7 +12,6 @@ jobs:
       - run:
           command: pip install flake8
           name: install requirements
-      - python/install-deps
       - python/save-cache
       - run:
           command: flake8 . --count --select=E901,E999,F821,F822,F823 --show-source --statistics
