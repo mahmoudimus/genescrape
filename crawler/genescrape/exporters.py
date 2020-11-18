@@ -44,7 +44,7 @@ class GoogleSheetItemExporter(BaseItemExporter):
         self.credentials = ServiceAccountCredentials.from_json_keyfile_name(
             "google_client_secret.json", scope
         )
-        self.gc = gspread.authorize(credentials)
+        self.gc = gspread.authorize(self.credentials)
         self.spreadsheet = self.gc.open("OnlineJobs")
         self.worksheet = self.spreadsheet.sheet1
 
