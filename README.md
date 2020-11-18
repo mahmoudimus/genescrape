@@ -6,12 +6,11 @@
 
 ### Installation
 
-`brew install docker-credential-gcloud`
-`gcloud components install docker-credential-gcr`
-`ln -s /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin/docker-credential-gcloud /usr/local/bin/`
-
-`docker-credential-gcr configure-docker`
-`docker-credential-gcloud configure-docker`
+- `brew install docker-credential-gcloud`
+- `gcloud components install docker-credential-gcr`
+- `ln -s /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin/docker-credential-gcloud /usr/local/bin/`
+- `docker-credential-gcr configure-docker`
+- `docker-credential-gcloud configure-docker`
 
 ### Build
 
