@@ -1,4 +1,4 @@
-.*
+.vscode
 !.gitignore
 *.pyc
 
@@ -10,4 +10,5 @@ build/
 dbs/
 eggs/
 logs/
-project.egg-info/
+*.egg-info/
+__pycache__

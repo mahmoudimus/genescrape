@@ -1,0 +1,27 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@0.2.1
+
+jobs:
+  build-and-test:
+    executor: python/default
+    steps:
+      - checkout
+      - python/load-cache
+      - run:
+          command: pip install flake8
+          name: install requirements
+      - python/install-deps
+      - python/save-cache
+      - run:
+          command: flake8 . --count --select=E901,E999,F821,F822,F823 --show-source --statistics
+          name: valid python?
+      - run:
+          command: flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+          name: all warnings are errors
+
+workflows:
+  main:
+    jobs:
+      - build-and-test
